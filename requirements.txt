@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pymysql
+sqlalchemy
+cryptography
+pydantic
+pydantic[email]
+flake8
+black
