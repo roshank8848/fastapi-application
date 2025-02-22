@@ -7,3 +7,4 @@ pydantic
 pydantic[email]
 flake8
 black
+pydantic-settings

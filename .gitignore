@@ -32,3 +32,6 @@ archive.zip
 # database folder
 .env
 .dev.env
+
+database/*
+!database/.gitkeep

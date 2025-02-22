@@ -20,6 +20,8 @@ services:
       - database
     links:
       - database
+    env_file:
+      - .env
   database:
     image: mysql:5.7
     env_file:
