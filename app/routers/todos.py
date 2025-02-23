@@ -10,7 +10,9 @@ todoRouter = APIRouter(tags=["todos"])
 
 
 @todoRouter.post("/todos/", response_model=app.schemas.Todo)
-def create_todo(todo: app.schemas.TodoCreate, user_id: int, db: Session = Depends(get_db)):
+def create_todo(
+    todo: app.schemas.TodoCreate, user_id: int, db: Session = Depends(get_db)
+):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="user not found")
