@@ -14,8 +14,6 @@ services:
     image: fastapi-devops:latest
     build:
       context: .
-    ports:
-      - 8000:8000
     depends_on:
       - database
     links:
@@ -26,7 +24,5 @@ services:
     image: mysql:5.7
     env_file:
       - .dev.env
-    ports:
-      - 3306:3306
     volumes:
       - ./database:/var/lib/mysql
