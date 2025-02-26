@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    network_mode: service:database
+  database:
+    image: mysql:lts
+    environment:
+      MYSQL_ROOT_PASSWORD: fastapp
+      MYSQL_DATABASE: users
+      MYSQL_USER: fastapp
+      MYSQL_PASSWORD: fastapp
+    volumes:
+      - ../database:/var/lib/mysql
+    
