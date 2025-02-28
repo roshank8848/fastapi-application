@@ -1,5 +1,6 @@
 from .user import User, UserCreate, UserUpdate, UserBase, UserWithTodos
 from .todo import Todo, TodoCreate, TodoUpdate, TodoBase
+from .tokendata import TokenData
 
 __all__ = [
     "User",
@@ -11,4 +12,5 @@ __all__ = [
     "TodoCreate",
     "TodoUpdate",
     "TodoBase",
+    "TokenData",
 ]

@@ -5,16 +5,30 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [
+		3306,
+		8000
+	],
+
+	"portsAttributes": {
+		"3306": {
+			"label": "database"
+		},
+		"8000": {
+			"label": "fastapi",
+			"onAutoForward": "openBrowser"
+		}
+	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	"postCreateCommand": "pip3 install --user -r requirements.txt",
+
+	"postStartCommand": "uvicorn app.main:app --reload --host 0.0.0.0"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
