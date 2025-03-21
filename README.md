@@ -14,3 +14,4 @@ MYSQL_ROOT_PASSWORD=<root_password>
 MYSQL_USER=<user>
 MYSQL_PASSWORD=<password>
 ```
+Create image with `docker build -t <image>:<tag> .`. Use `docker-compose build` to build the image.
