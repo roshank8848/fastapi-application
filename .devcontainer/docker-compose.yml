@@ -15,7 +15,4 @@ services:
       MYSQL_USER: fastapp
       MYSQL_PASSWORD: fastapp
     volumes:
-      - database:/var/lib/mysql
-volumes:
-  database:
-  
+      - ../database:/var/lib/mysql
