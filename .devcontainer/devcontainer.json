@@ -29,7 +29,8 @@
 	//"postCreateCommand": "pip3 install --user -r requirements.txt",
 
 	//"postStartCommand": "uvicorn app.main:app --reload --host 0.0.0.0",
-
+	"postStartCommand": "touch app.txt",
+	
 	// Configure tool-specific properties.
 	// "customizations": {},
 
