@@ -30,6 +30,8 @@
 
 	//"postStartCommand": "uvicorn app.main:app --reload --host 0.0.0.0",
 	"postStartCommand": "touch app.txt",
+
+	"postAttachCommand": "uvicorn app.main:app --reload --host 0.0.0.0",
 	
 	// Configure tool-specific properties.
 	// "customizations": {},
