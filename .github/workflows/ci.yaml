@@ -3,8 +3,14 @@ name: fastapi-application-ci-pipeline
 
 on:
   push:
+    branches:
+      - main
+      - feature/*
     tags:
       - 'v*.*.*'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   testing-ci:
@@ -42,6 +48,7 @@ jobs:
             echo "Running unit tests..."
   build-docker-image:
         runs-on: ubuntu-latest
+        if: github.event_name == 'push' && github.ref_type == 'tag'
         needs: 
             - testing-ci
             - unit-test
