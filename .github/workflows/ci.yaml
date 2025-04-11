@@ -48,7 +48,7 @@ jobs:
             echo "Running unit tests..."
   build-docker-image:
         runs-on: ubuntu-latest
-        if: github.event_name == 'push' && github.ref_type == 'tag'
+        #if: github.event_name == 'push' && github.ref_type == 'tag'
         needs: 
             - testing-ci
             - unit-test
@@ -79,3 +79,23 @@ jobs:
                 context: .
                 push: true
                 tags: ${{ steps.meta.outputs.tags }}
+  update-image-tag:
+        runs-on: ubuntu-latest
+        #if: github.event_name == 'push' && github.ref_type == 'tag'
+        needs: 
+            - build-docker-image
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+            with:
+              repository: roshank8848/argocd-deployment
+              ref: main
+              path: argocd-deployment
+              token: ${{ secrets.DEPLOYMENT_REPO_TOKEN }}
+          - name: Debug file paths
+            run: |
+                echo "Current directory: $(pwd)"
+                echo "Files in current directory:"
+                ls -la
+                echo "Files in argocd-deployment directory:"
+                ls -la argocd-deployment
