@@ -47,6 +47,8 @@ jobs:
           run: |
             echo "Running unit tests..."
   build-docker-image:
+        outputs:
+            image: ${{ steps.meta.outputs.tags }}
         runs-on: ubuntu-latest
         #if: github.event_name == 'push' && github.ref_type == 'tag'
         needs: 
@@ -61,7 +63,6 @@ jobs:
                     ${{ vars.DOCKERHUB_USERNAME }}/fastapi-application-ci
                 tags: |
                     type=semver,pattern={{version}}
-                    type=sha,prefix=,suffix=,format=short
           - name: Log in to Docker Hub
             uses: docker/login-action@v3
             with:
@@ -99,3 +100,22 @@ jobs:
                 ls -la
                 echo "Files in argocd-deployment directory:"
                 ls -la argocd-deployment
+          - name: Update image tag in ArgoCD deployment
+            run: |
+                cd argocd-deployment/manifests
+                echo "Current directory: $(pwd)"
+                IMAGE_TAG="${{ needs.build-docker-image.outputs.image }}"
+                echo "Updating image tag to $IMAGE_TAG"
+                sed -i "s|image: roshank8848/fastapi-application-ci:.*|image: roshank8848/fastapi-application-ci:$IMAGE_TAG|" fastapi-app-deployment.yaml
+          - name: Configure git credentials for pushing into the image repo
+            run: |
+                cd argocd-deployment
+                git config --global user.email "cibot@testin.app"
+                git config --global user.name "cibot"
+                git remote set-url origin https://${{ secrets.DEPLOYMENT_REPO_TOKEN }}@github.com/roshank8848/argocd-deployment.git
+          - name: Commit and push changes
+            run: |
+                cd argocd-deployment
+                git add .
+                git commit -m "Update image tag to ${{ needs.build-docker-image.outputs.image }}"
+                git push origin main
