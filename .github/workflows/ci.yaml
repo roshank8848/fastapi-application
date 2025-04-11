@@ -107,7 +107,7 @@ jobs:
                 IMAGE_TAG="${{ needs.build-docker-image.outputs.image }}"
                 IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/roshank8848\/fastapi-application-ci:latest//g' | tr -s ' ')
                 echo "Updating image tag to $IMAGE_TAG"
-                sed -i "s|image: roshank8848/fastapi-application-ci:.*|image: roshank8848/fastapi-application-ci:$IMAGE_TAG|" fastapi-app-deployment.yaml
+                sed -i "s|image: .*|image: $IMAGE_TAG|" fastapi-app-deployment.yaml
           - name: Configure git credentials for pushing into the image repo
             run: |
                 cd argocd-deployment
