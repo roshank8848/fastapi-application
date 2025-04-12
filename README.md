@@ -12,5 +12,5 @@ Create a `.dev.env` file with following content. This file will be used to build
 MYSQL_DATABASE=<database>
 MYSQL_ROOT_PASSWORD=<root_password>
 MYSQL_USER=<user>
-MYSQL_PASSWORD=<password>
+MYSQL_PASSWORD=<password> 
 ```
