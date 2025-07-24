@@ -42,4 +42,3 @@ def root():
 @app.get("/headers")
 async def headers_endpoint(request: Request):
     return {"headers": request.headers}
-
