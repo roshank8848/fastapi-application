@@ -1,17 +1,19 @@
+from fastapi import FastAPI, Depends, Request
 from fastapi import FastAPI, Depends
-from app.database import engine, Base
 from app.routers import users_router, todos_router
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 from app.auth.jwtvalidation import get_current_user
 from app.schemas.tokendata import TokenData
+from prometheus_fastapi_instrumentator import Instrumentator
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(root_path="/app")
+Instrumentator().instrument(app).expose(app)
 
 origins = ["*"]
 
@@ -35,3 +37,7 @@ async def secure_endpoint(current_user: TokenData = Depends(get_current_user)):
 @app.get("/")
 def root():
     return {"message": "Welcome to the FastAPI app with routers!"}
+
+@app.get("/headers")
+async def headers_endpoint(request: Request):
+    return {"headers" : request.headers}

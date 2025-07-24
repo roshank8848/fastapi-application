@@ -11,3 +11,4 @@ pydantic-settings
 pyjwt
 httpx
 pyjwt[crypto]
+prometheus-fastapi-instrumentator
