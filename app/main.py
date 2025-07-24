@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, Request
-from app.database import engine, Base
+from fastapi import FastAPI, Depends
 from app.routers import users_router, todos_router
 from fastapi.middleware.cors import CORSMiddleware
 import logging
