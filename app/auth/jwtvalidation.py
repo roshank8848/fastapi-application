@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Security
+from fastapi import HTTPException, Security, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import httpx
 import jwt
@@ -55,7 +55,11 @@ def verify_token(token: str):
             algorithms=["RS256"],
         )
         logger.debug(f"payload: {payload}")
-        return TokenData(sub=payload["sub"], email=payload["email"])
+        roles = []
+        resource_access = payload.get("resource_access", {})
+        for resource in resource_access.values():
+            roles.extend(resource.get("roles", []))
+        return TokenData(sub=payload["sub"], email=payload["email"], roles=roles)
     except jwt.PyJWTError as e:
         logger.error(f"PyJWTError: {e}")
         raise HTTPException(status_code=401, detail="Could not validate credentials")
@@ -68,3 +72,11 @@ async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Security(security),
 ):
     return verify_token(credentials.credentials)
+
+
+def require_roles(required_roles: list):
+    def role_checker(user: TokenData = Depends(get_current_user)):
+        if not set(required_roles).intersection(set(user.roles)):
+            raise HTTPException(status_code=403, detail="Not enough permissions")
+        return user
+    return role_checker
