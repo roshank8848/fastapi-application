@@ -6,6 +6,8 @@ from app.auth.jwtvalidation import get_current_user
 from app.schemas.tokendata import TokenData
 from prometheus_fastapi_instrumentator import Instrumentator
 from app.database import engine, Base
+from app.auth.jwtvalidation import require_roles
+
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -35,8 +37,8 @@ async def secure_endpoint(current_user: TokenData = Depends(get_current_user)):
 
 
 @app.get("/")
-def root():
-    return {"message": "Welcome to the FastAPI app with routers!"}
+def root(user: TokenData = Depends(require_roles(["role_user"]))):
+    return {"message": "Welcome to the FastAPI app with routers! You are authenticated.", "user": user}
 
 
 @app.get("/headers")
