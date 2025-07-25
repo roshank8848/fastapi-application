@@ -79,4 +79,5 @@ def require_roles(required_roles: list):
         if not set(required_roles).intersection(set(user.roles)):
             raise HTTPException(status_code=403, detail="Not enough permissions")
         return user
+
     return role_checker
