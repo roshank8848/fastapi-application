@@ -38,7 +38,10 @@ async def secure_endpoint(current_user: TokenData = Depends(get_current_user)):
 
 @app.get("/")
 def root(user: TokenData = Depends(require_roles(["role_user"]))):
-    return {"message": "Welcome to the FastAPI app with routers! You are authenticated.", "user": user}
+    return {
+        "message": "Welcome to the FastAPI app with routers! You are authenticated.",
+        "user": user,
+    }
 
 
 @app.get("/headers")
