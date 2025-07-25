@@ -41,7 +41,6 @@ def root(user: TokenData = Depends(require_roles(["role_user"]))):
     return {"message": "Welcome to the FastAPI app with routers! You are authenticated.", "user": user}
 
 
-
 @app.get("/headers")
 async def headers_endpoint(request: Request):
     return {"headers": request.headers}
