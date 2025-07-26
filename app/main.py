@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Depends, Request
 from app.routers import users_router, todos_router
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(root_path="/app")
+app = FastAPI(root_path=(os.getenv("ROOT_PATH", "")))
 Instrumentator().instrument(app).expose(app)
 
 origins = ["*"]
