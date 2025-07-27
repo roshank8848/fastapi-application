@@ -5,18 +5,20 @@ from fastapi.middleware.cors import CORSMiddleware
 import logging
 from app.auth.jwtvalidation import get_current_user
 from app.schemas.tokendata import TokenData
-from prometheus_fastapi_instrumentator import Instrumentator
 from app.database import engine, Base
 from app.auth.jwtvalidation import require_roles
-
+from app.tracer import initialize_tracer, instrument_all, get_tracer
+import requests
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+initialize_tracer()
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(root_path=(os.getenv("ROOT_PATH", "")))
-Instrumentator().instrument(app).expose(app)
+instrument_all(app, engine)
+tracer = get_tracer("main")
 
 origins = ["*"]
 
