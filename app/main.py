@@ -8,7 +8,6 @@ from app.schemas.tokendata import TokenData
 from app.database import engine, Base
 from app.auth.jwtvalidation import require_roles
 from app.tracer import initialize_tracer, instrument_all, get_tracer
-import requests
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
