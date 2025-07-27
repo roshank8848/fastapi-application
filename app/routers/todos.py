@@ -12,6 +12,7 @@ from opentelemetry.trace.status import Status, StatusCode
 todoRouter = APIRouter(tags=["todos"])
 tracer = get_tracer("todos")
 
+
 @todoRouter.post("/todos/", response_model=app.schemas.Todo)
 def create_todo(
     todo: app.schemas.TodoCreate, user_id: int, db: Session = Depends(get_db)
