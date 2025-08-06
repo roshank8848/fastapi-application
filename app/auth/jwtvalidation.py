@@ -60,7 +60,8 @@ def verify_token(token: str):
         for resource_name, resource in resource_access.items():
             if resource_name == "springboot":
                 roles.extend(resource.get("roles", []))
-        return TokenData(name=payload["name"], preferred_username=payload["preferred_username"], sub=payload["sub"], email=payload["email"], roles=roles)
+        return TokenData(name=payload["name"], preferred_username=payload["preferred_username"],
+                         sub=payload["sub"], email=payload["email"], roles=roles)
     except jwt.PyJWTError as e:
         logger.error(f"PyJWTError: {e}")
         raise HTTPException(status_code=401, detail="Could not validate credentials")
