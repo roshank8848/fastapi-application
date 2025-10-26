@@ -75,10 +75,16 @@ def verify_token(token: str):
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
-async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Security(security),
-):
-    return verify_token(credentials.credentials)
+# async def get_current_user(
+#     credentials: HTTPAuthorizationCredentials = Security(security),
+# ):
+#     return verify_token(credentials.credentials)
+
+async def get_current_user(request: httpx.Request):
+    token = request.headers.get("x-auth-request-access-token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing access token")
+    return verify_token(token)
 
 
 def require_roles(required_roles: list):
