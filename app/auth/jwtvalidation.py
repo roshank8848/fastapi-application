@@ -1,5 +1,5 @@
-from fastapi import HTTPException, Security, Depends
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi import HTTPException, Depends
+from fastapi.security import HTTPBearer
 import httpx
 import jwt
 from jwt import PyJWKSet
@@ -79,6 +79,7 @@ def verify_token(token: str):
 #     credentials: HTTPAuthorizationCredentials = Security(security),
 # ):
 #     return verify_token(credentials.credentials)
+
 
 async def get_current_user(request: httpx.Request):
     token = request.headers.get("x-auth-request-access-token")
