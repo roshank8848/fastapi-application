@@ -32,7 +32,7 @@
 	//"postStartCommand": "touch app.txt",
 	"postCreateCommand": "pip3 install --user -r requirements.txt",
 
-	"postStartCommand": "uvicorn app.main:app --reload --host 0.0.0.0"
+	"postStartCommand": "uvicorn app.main:app --reload --host 0.0.0.0",
 
 	"postAttachCommand": "uvicorn app.main:app --reload --host 0.0.0.0",
 	
