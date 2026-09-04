@@ -1,12 +1,9 @@
 import os
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI, Request
 from app.routers import users_router, todos_router
 from fastapi.middleware.cors import CORSMiddleware
 import logging
-from app.auth.jwtvalidation import get_current_user
-from app.schemas.tokendata import TokenData
 from app.database import engine, Base
-from app.auth.jwtvalidation import require_roles
 from app.tracer import initialize_tracer, instrument_all, get_tracer
 
 logging.basicConfig(level=logging.DEBUG)
