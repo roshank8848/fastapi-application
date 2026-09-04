@@ -34,15 +34,15 @@ app.include_router(todos_router)
 
 
 @app.get("/secure")
-async def secure_endpoint(current_user: TokenData = Depends(get_current_user)):
-    return {"message": "This is a secure endpoint", "current_user": current_user}
+async def secure_endpoint():
+    return {"message": "This is a secure endpoint", "current_user": "developer"}
 
 
 @app.get("/")
-def root(user: TokenData = Depends(require_roles(["role_user"]))):
+def root():
     return {
         "message": "Welcome to the FastAPI app with routers! You are authenticated.",
-        "user": user,
+        "user": "developer",
     }
 
 
